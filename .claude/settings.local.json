@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\kchan\\\\Documents\\\\dejoule\" -Recurse -Exclude \"node_modules\", \".next\" | Where-Object { $_.FullName -notmatch \"node_modules|\\\\.next\" } | Select-Object FullName | Format-List)",
+      "Bash(npm install *)",
+      "PowerShell(New-Item *)",
+      "Bash(npm run *)",
+      "Bash(Start-Sleep -Seconds 5)",
+      "Bash(Get-Content \"C:\\\\Users\\\\kchan\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-kchan-Documents-dejoule\\\\93786774-5c11-4da5-ac19-4d5be3412ad7\\\\tasks\\\\bi5pkw6am.output\")",
+      "Bash(Select-Object -Last 20)",
+      "Read(//mnt/c/Users/kchan/Documents/**)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:3000\" -TimeoutSec 3 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty StatusCode)",
+      "PowerShell(Start-Sleep -Seconds 4; try { $r = [System.Net.WebRequest]::Create\\(\"http://localhost:3000\"\\); $r.Timeout = 3000; $resp = $r.GetResponse\\(\\); $resp.StatusCode } catch { \"not ready yet\" })",
+      "Skill(figma:figma-implement-design)",
+      "mcp__plugin_figma_figma__get_metadata",
+      "mcp__plugin_figma_figma__get_screenshot",
+      "Bash(curl -s -o /tmp/figma_full.png \"https://www.figma.com/api/mcp/asset/278d3ea2-9001-48f0-9ad6-33e6200690b5\")",
+      "PowerShell(Invoke-WebRequest -Uri \"https://www.figma.com/api/mcp/asset/278d3ea2-9001-48f0-9ad6-33e6200690b5\" -OutFile \"$env:TEMP\\\\figma_full.png\" -ErrorAction Stop; Write-Output \"downloaded\")",
+      "mcp__plugin_figma_figma__get_design_context",
+      "PowerShell(Start-Sleep -Seconds 3; try { $r = [System.Net.WebRequest]::Create\\(\"http://localhost:3000\"\\); $r.Timeout = 4000; $resp = $r.GetResponse\\(\\); \"HTTP $\\($resp.StatusCode\\)\" } catch { \"Error: $_\" })",
+      "PowerShell(Start-Sleep -Seconds 2; try { $r = [System.Net.WebRequest]::Create\\(\"http://localhost:3000\"\\); $r.Timeout = 5000; $resp = $r.GetResponse\\(\\); \"Status: $\\($resp.StatusCode\\)\" } catch { \"Error: $\\($_.Exception.Message\\)\" })",
+      "mcp__plugin_figma_figma__whoami",
+      "mcp__plugin_figma_figma__use_figma",
+      "Bash(curl -o \"public/roi-analytics.png\" \"https://www.figma.com/api/mcp/asset/f805048a-0e5e-4c15-b847-53bf156ffee5\")",
+      "Bash(curl -o \"public/roi-alerts.png\" \"https://www.figma.com/api/mcp/asset/5073ef96-fa80-42ed-b816-2b5bd6035e4d\")",
+      "Bash(curl -o \"public/roi-monitoring.png\" \"https://www.figma.com/api/mcp/asset/1e668731-1822-465a-87f3-38d3ab323599\")",
+      "Bash(curl -o \"public/roi-automation.png\" \"https://www.figma.com/api/mcp/asset/e1de8695-24a8-48b3-8522-134e62c466f7\")",
+      "Bash(curl -s -o phone-icon-messages.png \"https://www.figma.com/api/mcp/asset/b378ec84-eb80-4fdb-888a-6eea4ee35411\")",
+      "Bash(curl -s -o phone-icon-whatsapp.png \"https://www.figma.com/api/mcp/asset/c75d31c8-f571-490d-a86b-0ee0fadf9cde\")",
+      "Bash(curl -s -o phone-icon-mail.png \"https://www.figma.com/api/mcp/asset/20d8c2b4-765d-4f6f-b50c-5b367a5e16f4\")",
+      "Bash(npx next *)",
+      "Bash(node *)",
+      "Bash(curl -sL \"https://www.figma.com/api/mcp/asset/13cf776e-e2a8-484f-87c6-b2cf519b62f8\" -o phone-icon-messages.png)",
+      "Bash(curl -sL \"https://www.figma.com/api/mcp/asset/521cf37f-a4c3-4e22-8957-635a5fcf9aff\" -o phone-icon-whatsapp.png)",
+      "Bash(curl -sL \"https://www.figma.com/api/mcp/asset/1a8e4b79-2986-4672-98cb-c6ff0633d109\" -o phone-icon-mail.png)",
+      "Bash(curl -sL \"https://www.figma.com/api/mcp/asset/21aa0f58-35a3-42d4-aa50-5f4fdc8878c0\" -o hero-image204.png)",
+      "Bash(curl -sL \"https://www.figma.com/api/mcp/asset/6eef4173-e7e6-49c7-b0ce-6df37426b9e9\" -o hero-mobile2.png)",
+      "Bash(curl -sL \"https://www.figma.com/api/mcp/asset/ca3920d0-eed0-4d9c-a667-93a22a8ff116\" -o hero-mobile1.png)"
+    ]
+  }
+}
