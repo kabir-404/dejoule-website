@@ -6,22 +6,21 @@ import Image from "next/image";
 
 const EASE = [0.22, 1, 0.36, 1];
 
-// ── Phase timings (ms) — Issue 5: all +500ms ─────────────────────────────────
-const T2 = 1700; // phone uprights
-const T3 = 3300; // cards + phone screen appear
-const T4 = 5500; // phone shifts right, headline exits
-const T5 = 7000; // left panel fades in
+// ── Phase timings (ms) ───────────────────────────────────────────────────────
+const T2 = 1700;
+const T3 = 3300;
+const T4 = 5500;
+const T5 = 7000;
 const T_ITEMS = [7000, 9500, 12000, 14500];
 
-// ── Animation durations (s) — Issue 5: all +0.5s ─────────────────────────────
-const D_ENTER = 1.9; // phone enter
-const D_CARDS = 1.4; // cards + phone screen slide in
-const D_SHIFT = 1.8; // phone shifts right, headline exits
-const D_PANEL = 1.5; // left panel fades in
-const D_ITEM = 1.3; // item enter/exit
+// ── Animation durations (s) ──────────────────────────────────────────────────
+const D_ENTER = 1.9;
+const D_CARDS = 1.4;
+const D_SHIFT = 1.8;
+const D_PANEL = 1.5;
+const D_ITEM = 1.3;
 
 // ── Alert cards ───────────────────────────────────────────────────────────────
-// Container: left=11.96vw, top=22.6vh, 75vw×66.8vh
 const CARD_DATA = [
   {
     id: "top-right",
@@ -76,17 +75,7 @@ const ITEMS = [
   },
 ];
 
-// ── Phone screen notification cards (Figma Variant3 node 1:673) ───────────────
-// Issue 3: now positioned INSIDE phone motion.div (moves/scales with phone).
-// Cluster: left=8.8%, top=14.2% of phone (67/761, 133/935)
-//          width=39.7%, height=39.36% of phone (302/761, 368/935)
-// Outer cluster: rotate(-14.38deg)
-// Inner cards: rotate(8.39deg) skewX(9.67deg) scaleX(1.01) scaleY(0.97)
-// Card width: 69.5% of cluster (210/302)
-// Card top/left offsets as % of cluster dimensions:
-//   Messages: top=-4.29/368=-1.17%, left=-14.34/302=-4.75%
-//   WhatsApp: top=92.17/368=25.05%, left=-9.75/302=-3.23%
-//   Mail:     top=181.5/368=49.32%, left=-9.99/302=-3.31%
+// ── Phone screen notification cards ──────────────────────────────────────────
 const NOTIF_CARDS = [
   {
     app: "MESSAGES",
@@ -244,7 +233,6 @@ export default function HeroAndSticky() {
   const [phase, setPhase] = useState(1);
   const [activeItem, setActiveItem] = useState(-1);
 
-  // Phase progression timers
   useEffect(() => {
     const timers = [
       setTimeout(() => setPhase(2), T2),
@@ -291,11 +279,6 @@ export default function HeroAndSticky() {
       />
 
       <div className="relative w-full" style={{ height: "100vh" }}>
-        {/* ── Headline (Issue 2: larger font, 2-line break, maxWidth 920px) ─────
-          Default:   y=+80, opacity=0
-          Phase 2+:  y=0,   opacity=1    (anchored at top: 14.2vh)
-          Phase 4:   y=-340, opacity=0   (flies off screen top)
-        */}
         <div
           className="absolute inset-x-0 z-20 flex flex-col items-center text-center pointer-events-none px-6"
           style={{ top: "8vh" }}
@@ -342,20 +325,7 @@ export default function HeroAndSticky() {
           </motion.div>
         </div>
 
-        {/* ── Phone + phone screen notifications ────────────────────────────────
-          Issue 2: top moved from 24vh → 26vh (clears 2-line headline)
-          Issue 3: PhoneNotifications is now a CHILD of the phone motion.div
-                   so it automatically moves/scales with the phone in Phase 4.
-                   visible={phase >= 3}: persists through all subsequent phases.
-
-          Phone:     opacity=0.2, rotate=-19.71° → 1.0, -1.43° at Phase 2
-          Phase 4:   x=+23vw, scale=1.2
-
-          Notification cluster (Figma node 1:673):
-            position: absolute inside phone, left=8.8%, top=14.2%
-            width=39.7%, height=39.36%  (proportional to Figma phone 761×935px)
-            rotate(-14.38deg) outer | rotate(8.39deg) skewX(9.67deg) per card
-        */}
+        {/* ── Phone + phone screen notifications ──────────────────────────────── */}
         <div
           className="absolute inset-0 flex items-start justify-center pointer-events-none z-10"
           style={{ paddingTop: "calc(38vh - 60px)" }}
@@ -529,7 +499,7 @@ export default function HeroAndSticky() {
           </motion.div>
         </div>
 
-        {/* ── Alert cards (Figma Variant3) ───────────────────────────────────── */}
+        {/* ── Alert cards ──────────────────────────────────────────────────────── */}
         <div
           className="absolute hidden lg:block"
           style={{
@@ -575,7 +545,6 @@ export default function HeroAndSticky() {
           animate={{ opacity: phase >= 5 ? 1 : 0 }}
           transition={{ duration: D_PANEL, ease: EASE }}
         >
-          {/* Heading — static, does not animate */}
           <h2
             style={{
               fontFamily: "var(--font-work-sans), sans-serif",
@@ -591,7 +560,6 @@ export default function HeroAndSticky() {
             should do for you
           </h2>
 
-          {/* Body paragraphs — static */}
           <div
             style={{
               display: "flex",
@@ -628,10 +596,7 @@ export default function HeroAndSticky() {
             </p>
           </div>
 
-          {/* Issue 4 — AnimatePresence mode="wait": only ONE item rendered at a time.
-            When activeItem changes: current exits (y:0→-30, opacity:1→0) then
-            next enters (y:30→0, opacity:0→1). Inactive items are invisible (never rendered).
-          */}
+          {/* mode="wait" ensures the exiting item fully leaves before the next one enters */}
           <div style={{ minHeight: "10vh" }}>
             <AnimatePresence mode="wait">
               {activeItem >= 0 && (

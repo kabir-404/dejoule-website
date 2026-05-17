@@ -4,16 +4,6 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Figma node 1:410 — exact values from Frame 2147227241 + Frame 2147227328
-// Card gradient:  linear-gradient(151.33deg, #fff 57.31%, rgb(237,240,245) 90.39%)
-// Card shadow:    8px 5px 13px 6px rgba(0,0,0,0.01)
-// Card inset:     inset 0px 4px 11.1px 11px rgba(202,54,4,0.02), inset 0px 2px 8px 0px rgba(222,222,222,0.3)
-// Title:          Work Sans Medium 28px #1b1b1b tracking[-0.84px] leading-[1.18]
-// Subtitle:       Work Sans Medium 24px #1b1b1b tracking[-1px]   leading-[1.27]
-// Description:    Inter Regular 18px    #060606  opacity-75       leading-[1.28]
-// Features:       Inter Medium  18px    #333      leading-[1.38]
-// Button text:    Work Sans Medium 22px gradient(#ca3604→#000) tracking[-2px]
-
 const CARD_META = {
   1: { subtitle: "From raw data to real decisions in real time",                                        image: "/roi-analytics.png" },
   2: { subtitle: "More than alerts. Built-in foresight.",                                               image: "/roi-alerts.png"   },
@@ -45,10 +35,6 @@ function CardIcon() {
   return <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: ORANGE }} />;
 }
 
-// Figma Component 151/152 — same gradient-button style as CTA "Let's connect"
-// bg:    linear-gradient(180deg, #fff 5.08%, rgb(194,205,216) 94.92%)
-// text:  linear-gradient(90deg, #ca3604 3.64%, #000 91.45%)
-// inset: inset 0px 3.48px 13.05px 0px #f8f0e0, inset 0px -1.74px 3.48px 0px rgba(0,0,0,0.1)
 function SeeHowButton() {
   return (
     <button
@@ -110,7 +96,7 @@ function ExpandedCard({ card }) {
       />
 
       <div className="flex min-h-[620px]">
-        {/* Left content — Figma: left=41px top=49px, gap between sections=46px */}
+        {/* Left content */}
         <div className="flex flex-col gap-10 px-10 py-12 w-[450px] shrink-0">
           {/* Title row */}
           <div className="flex items-center gap-3.5">
@@ -129,7 +115,7 @@ function ExpandedCard({ card }) {
             </h3>
           </div>
 
-          {/* Subtitle + description — gap=15px between them */}
+          {/* Subtitle + description */}
           <div className="flex flex-col gap-4">
             <p
               className="leading-[1.27]"
@@ -156,7 +142,7 @@ function ExpandedCard({ card }) {
             </p>
           </div>
 
-          {/* Feature items — gap=12px, divider rgba(202,54,4,0.2) */}
+          {/* Feature items */}
           <div className="flex flex-col gap-3">
             {card.features.map((feat, i) => (
               <div key={feat}>
@@ -184,7 +170,7 @@ function ExpandedCard({ card }) {
           <SeeHowButton />
         </div>
 
-        {/* Right image — white card wrapper with pink border (Figma card 4 style) */}
+        {/* Right image */}
         <div className="flex-1 flex items-center p-5 pl-0">
           <div
             className="w-full h-full rounded-[10px] p-5 flex items-center"
@@ -278,9 +264,8 @@ export default function ReturnOnIntelligence() {
     <section id="roi" className="bg-white py-20 lg:py-28">
       <div className="max-w-[1580px] mx-auto px-6 lg:px-12">
 
-        {/* Header — Figma node 1:412 */}
+        {/* Header */}
         <div className="mb-8">
-          {/* Tag row — DotGridIcon + "Return on intelligence" Inter Regular 20px #ca3604 uppercase */}
           <div className="flex items-center gap-3 mb-10">
             <DotGridIcon />
             <span
@@ -297,9 +282,7 @@ export default function ReturnOnIntelligence() {
             </span>
           </div>
 
-          {/* Two-column headline + description — Figma node 1:427, gap=288px */}
           <div className="flex items-start gap-0">
-            {/* Headline — Work Sans Light/Medium 48px #1b1b1b tracking[-1.92px=-0.04em] */}
             <div className="flex-1 max-w-[680px]">
               <h2
                 className="text-[36px] sm:text-[44px] lg:text-[48px] leading-[1.18]"
@@ -313,7 +296,6 @@ export default function ReturnOnIntelligence() {
                 <span style={{ fontWeight: 500 }}>They deliver value.</span>
               </h2>
             </div>
-            {/* Description — Inter Regular 20px tracking[-1px] */}
             <div className="hidden lg:block flex-1 pl-20 pt-1 max-w-[620px]">
               <p
                 className="text-[18px] lg:text-[20px] leading-[1.41]"
