@@ -12,6 +12,10 @@ const CARD_META = {
 };
 
 const ORANGE = "#ca3604";
+const EASE = [0.22, 1, 0.36, 1];
+
+const EXPANDED_H = 621;
+const PEEK_H = 80;
 
 function DotGridIcon() {
   return (
@@ -37,8 +41,10 @@ function CardIcon() {
 
 function SeeHowButton() {
   return (
-    <button
-      className="relative overflow-hidden flex items-center justify-center px-8 py-5 rounded-full border mt-2"
+    <motion.button
+      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="group relative overflow-hidden flex items-center justify-center px-8 py-5 rounded-full border mt-2"
       style={{
         borderColor: "rgba(255,255,255,0.43)",
         boxShadow: "0px -0.87px 2.61px 0px rgba(0,0,0,0.05)",
@@ -49,6 +55,10 @@ function SeeHowButton() {
         style={{
           background: "linear-gradient(180deg, rgb(255,255,255) 5.08%, rgb(194,205,216) 94.92%)",
         }}
+      />
+      <div
+        className="absolute inset-0 rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ background: "rgba(202,54,4,0.15)" }}
       />
       <span
         className="relative whitespace-nowrap"
@@ -72,22 +82,29 @@ function SeeHowButton() {
           boxShadow: "inset 0px 3.48px 13.05px 0px #f8f0e0, inset 0px -1.74px 3.48px 0px rgba(0,0,0,0.1)",
         }}
       />
-    </button>
+      <div
+        className="absolute inset-0 rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{
+          boxShadow: "inset 0px 3.48px 20px 0px rgba(202,54,4,0.2), inset 0px -1.74px 5px 0px rgba(0,0,0,0.15)",
+        }}
+      />
+    </motion.button>
   );
 }
 
-function ExpandedCard({ card }) {
+function ExpandedCard({ card, onDismiss }) {
+  const [expandedFeature, setExpandedFeature] = useState(null);
+
   return (
     <div
       className="w-full overflow-hidden relative"
       style={{
         borderRadius: "30px",
         background: "linear-gradient(151.33deg, rgb(255,255,255) 57.31%, rgb(237,240,245) 90.39%)",
-        boxShadow: "8px 5px 13px 6px rgba(0,0,0,0.01)",
+        boxShadow: "8px 5px 13px 6px rgba(0,0,0,0.02)",
         backdropFilter: "blur(0.5px)",
       }}
     >
-      {/* inset shadow overlay */}
       <div
         className="absolute inset-0 pointer-events-none rounded-[30px]"
         style={{
@@ -96,10 +113,11 @@ function ExpandedCard({ card }) {
       />
 
       <div className="flex min-h-[620px]">
-        {/* Left content */}
         <div className="flex flex-col gap-10 px-10 py-12 w-[450px] shrink-0">
-          {/* Title row */}
-          <div className="flex items-center gap-3.5">
+          <button
+            onClick={onDismiss}
+            className="flex items-center gap-3.5 text-left cursor-pointer"
+          >
             <CardIcon />
             <h3
               className="leading-[1.18]"
@@ -113,9 +131,8 @@ function ExpandedCard({ card }) {
             >
               {card.title}
             </h3>
-          </div>
+          </button>
 
-          {/* Subtitle + description */}
           <div className="flex flex-col gap-4">
             <p
               className="leading-[1.27]"
@@ -142,35 +159,71 @@ function ExpandedCard({ card }) {
             </p>
           </div>
 
-          {/* Feature items */}
-          <div className="flex flex-col gap-3">
-            {card.features.map((feat, i) => (
-              <div key={feat}>
-                <div className="flex items-center justify-between py-1">
-                  <p
-                    className="leading-[1.38]"
-                    style={{
-                      color: "#333",
-                      fontFamily: "var(--font-geist-sans), Inter, sans-serif",
-                      fontWeight: 500,
-                      fontSize: "18px",
-                    }}
+          <div className="flex flex-col gap-0">
+            {card.features.map((feat, i) => {
+              const isOpen = expandedFeature === i;
+              return (
+                <div key={feat.title ?? feat}>
+                  <button
+                    onClick={() => setExpandedFeature(isOpen ? null : i)}
+                    className="flex items-center justify-between py-1 w-full text-left"
                   >
-                    {feat}
-                  </p>
-                  <span style={{ color: ORANGE }} className="text-lg leading-none ml-2 shrink-0">+</span>
+                    <p
+                      className="leading-[1.38]"
+                      style={{
+                        color: "#333",
+                        fontFamily: "var(--font-geist-sans), Inter, sans-serif",
+                        fontWeight: 500,
+                        fontSize: "18px",
+                      }}
+                    >
+                      {feat.title ?? feat}
+                    </p>
+                    <motion.span
+                      animate={{ rotate: isOpen ? 45 : 0 }}
+                      transition={{ duration: 0.3, ease: EASE }}
+                      style={{ color: "#333", display: "inline-block", transformOrigin: "center" }}
+                      className="text-lg leading-none ml-2 shrink-0"
+                    >
+                      +
+                    </motion.span>
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {isOpen && feat.description && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: EASE }}
+                        style={{ overflow: "hidden" }}
+                      >
+                        <p
+                          className="pb-2 pt-1 leading-[1.5]"
+                          style={{
+                            color: "#555",
+                            fontFamily: "var(--font-geist-sans), Inter, sans-serif",
+                            fontWeight: 400,
+                            fontSize: "15px",
+                          }}
+                        >
+                          {feat.description}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {i < card.features.length - 1 && (
+                    <div className="h-px mt-1 mb-2" style={{ background: "rgba(202,54,4,0.2)" }} />
+                  )}
                 </div>
-                {i < card.features.length - 1 && (
-                  <div className="h-px mt-1" style={{ background: "rgba(202,54,4,0.2)" }} />
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <SeeHowButton />
         </div>
 
-        {/* Right image */}
         <div className="flex-1 flex items-center p-5 pl-0">
           <div
             className="w-full h-full rounded-[10px] p-5 flex items-center"
@@ -204,15 +257,14 @@ function ExpandedCard({ card }) {
   );
 }
 
-function CollapsedCard({ card, onClick }) {
+function CollapsedCard({ card }) {
   return (
-    <button
-      onClick={onClick}
-      className="w-full text-left overflow-hidden cursor-pointer relative"
+    <div
+      className="w-full text-left overflow-hidden relative"
       style={{
         borderRadius: "30px",
         background: "linear-gradient(151.33deg, rgb(255,255,255) 57.31%, rgb(237,240,245) 90.39%)",
-        boxShadow: "8px 5px 13px 6px rgba(0,0,0,0.01)",
+        boxShadow: "8px 5px 13px 6px rgba(0,0,0,0.02)",
         backdropFilter: "blur(0.5px)",
       }}
     >
@@ -234,16 +286,19 @@ function CollapsedCard({ card, onClick }) {
       <div
         className="absolute inset-0 pointer-events-none rounded-[30px]"
         style={{
-          boxShadow: "inset 0px 2px 8px 0px rgba(222,222,222,0.3)",
+          boxShadow: "inset 0px 4px 11.1px 11px rgba(202,54,4,0.02), inset 0px 2px 8px 0px rgba(222,222,222,0.3)",
         }}
       />
-    </button>
+    </div>
   );
 }
 
 export default function ReturnOnIntelligence() {
-  const [active, setActive] = useState(3);
   const [cards, setCards] = useState([]);
+  const [dismissed, setDismissed] = useState(0);
+  const [isDismissing, setIsDismissing] = useState(false);
+  // Incremented on reset so all cards remount with initial positions (no animation)
+  const [resetKey, setResetKey] = useState(0);
 
   useEffect(() => {
     fetch("/api/cards")
@@ -260,11 +315,31 @@ export default function ReturnOnIntelligence() {
       .catch(() => {});
   }, []);
 
+  const handleDismiss = () => {
+    if (isDismissing || cards.length === 0) return;
+    setIsDismissing(true);
+    setTimeout(() => {
+      const next = dismissed + 1;
+      if (next >= cards.length) {
+        setDismissed(0);
+        setResetKey((k) => k + 1);
+      } else {
+        setDismissed(next);
+      }
+      setIsDismissing(false);
+    }, 500);
+  };
+
+  // cards[n-1] starts active (bottom); slice removes from the right as each is dismissed
+  const remaining = cards.slice(0, cards.length - dismissed);
+
+  const totalCards = cards.length || 4;
+  const containerHeight = EXPANDED_H + (totalCards - 1) * PEEK_H;
+
   return (
     <section id="roi" className="bg-white py-20 lg:py-28">
       <div className="max-w-[1580px] mx-auto px-6 lg:px-12">
 
-        {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-10">
             <DotGridIcon />
@@ -314,39 +389,45 @@ export default function ReturnOnIntelligence() {
           </div>
         </div>
 
-        {/* Horizontal divider */}
         <div className="h-px mb-10" style={{ background: "#e5e7eb" }} />
 
-        {/* Accordion */}
-        <div className="flex flex-col gap-3">
-          {cards.map((card, i) => (
-            <motion.div key={card.id} layout transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}>
-              <AnimatePresence mode="wait" initial={false}>
-                {active === i ? (
-                  <motion.div
-                    key="expanded"
-                    initial={{ opacity: 0, scale: 0.99 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.99 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <ExpandedCard card={card} />
-                  </motion.div>
+        <div style={{ position: "relative", height: containerHeight }}>
+          {remaining.map((card, i) => {
+            const peekIndex = remaining.length - 1 - i;
+            const isTop = peekIndex === 0;
+            const cardY = i * PEEK_H;
+
+            const cardScale = 1 - peekIndex * 0.03;
+
+            return (
+              <motion.div
+                key={`${card.id}-${resetKey}`}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  zIndex: i + 1,
+                  transformOrigin: "top center",
+                }}
+                initial={{ y: cardY, opacity: 1, scale: cardScale }}
+                animate={{
+                  y: isTop && isDismissing ? cardY - 300 : cardY,
+                  opacity: isTop && isDismissing ? 0 : 1,
+                  scale: cardScale,
+                }}
+                transition={{ duration: 0.5, ease: EASE }}
+              >
+                {isTop ? (
+                  <ExpandedCard card={card} onDismiss={handleDismiss} />
                 ) : (
-                  <motion.div
-                    key="collapsed"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <CollapsedCard card={card} onClick={() => setActive(i)} />
-                  </motion.div>
+                  <CollapsedCard card={card} />
                 )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
+
       </div>
     </section>
   );

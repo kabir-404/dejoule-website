@@ -49,9 +49,7 @@ export default function Footer() {
       }}
     >
       <div className="max-w-[1580px] mx-auto px-6 lg:px-12 pt-16 pb-10">
-        {/* Top grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 pb-14 border-b border-gray-200/60">
-          {/* Brand */}
           <div className="col-span-2 lg:col-span-1 flex flex-col gap-3">
             <Link href="/" className="inline-block">
               <Image
@@ -64,7 +62,6 @@ export default function Footer() {
             </Link>
           </div>
 
-          {/* Company */}
           <div>
             <p
               className="font-medium uppercase mb-6"
@@ -97,7 +94,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Solutions */}
           <div>
             <p
               className="font-medium uppercase mb-6"
@@ -130,7 +126,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Social */}
           <div>
             <p
               className="font-medium uppercase mb-6"
@@ -177,7 +172,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom row */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8">
           <p
             style={{

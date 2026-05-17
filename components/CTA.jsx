@@ -172,6 +172,7 @@ function SectionReveal({ children, delay = 0 }) {
 
 export default function CTA() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [ctaHovered, setCtaHovered] = useState(false);
 
   return (
     <>
@@ -192,19 +193,30 @@ export default function CTA() {
 
           <SectionReveal delay={0.15}>
             <div className="mt-12 flex justify-center">
-              <button
+              <motion.button
                 onClick={() => setModalOpen(true)}
-                className="relative overflow-hidden flex items-center justify-center px-9 py-4 rounded-full border"
+                onHoverStart={() => setCtaHovered(true)}
+                onHoverEnd={() => setCtaHovered(false)}
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="group relative overflow-hidden flex items-center justify-center px-9 py-4 rounded-full border"
                 style={{
                   borderColor: "rgba(255,255,255,0.43)",
-                  boxShadow: "0px -0.87px 2.61px 0px rgba(0,0,0,0.05)",
+                  boxShadow: ctaHovered
+                    ? "0 8px 24px rgba(202,54,4,0.4)"
+                    : "0px -0.87px 2.61px 0px rgba(0,0,0,0.05)",
+                  transition: "box-shadow 0.3s ease",
                 }}
               >
                 <div
-                  className="absolute inset-0 rounded-full pointer-events-none"
+                  className="absolute inset-0 rounded-full pointer-events-none group-hover:opacity-0 transition-opacity duration-300"
                   style={{
                     background: "linear-gradient(180deg, rgb(255,255,255) 5.08%, rgb(194,205,216) 94.92%)",
                   }}
+                />
+                <div
+                  className="absolute inset-0 rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{ background: "#b33004" }}
                 />
                 <span
                   className="relative whitespace-nowrap"
@@ -214,21 +226,25 @@ export default function CTA() {
                     fontSize: "22px",
                     letterSpacing: "-2px",
                     lineHeight: 1.41,
-                    background: "linear-gradient(90deg, #ca3604 3.64%, #000000 91.45%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
+                    ...(ctaHovered
+                      ? { color: "#ffffff", WebkitTextFillColor: "#ffffff", background: "none" }
+                      : {
+                          background: "linear-gradient(90deg, #ca3604 3.64%, #000000 91.45%)",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                          backgroundClip: "text",
+                        }),
                   }}
                 >
                   Let&apos;s connect
                 </span>
                 <div
-                  className="absolute inset-0 rounded-full pointer-events-none"
+                  className="absolute inset-0 rounded-full pointer-events-none group-hover:opacity-0 transition-opacity duration-300"
                   style={{
                     boxShadow: "inset 0px 3.48px 13.05px 0px #f8f0e0, inset 0px -1.74px 3.48px 0px rgba(0,0,0,0.1)",
                   }}
                 />
-              </button>
+              </motion.button>
             </div>
           </SectionReveal>
         </div>

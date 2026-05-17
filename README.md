@@ -56,7 +56,7 @@ components/
 
 **Data persistence**
 
-- `data/cards.json` — editable card content (committed to git)
+- `data/cards.json` — editable card content (committed to git). To update cards without redeploying, edit this file directly; changes are served immediately because `/api/cards` is `force-dynamic`.
 - `data/contacts.json` — contact form submissions (`.gitignore`d; created on first submission)
 
 **Styling strategy**
@@ -68,7 +68,7 @@ components/
 
 ## Responsive Approach
 
-- **Navbar** — desktop horizontal links; mobile collapses to hamburger with an animated full-screen drawer
+- **Navbar** — desktop horizontal links; mobile collapses to hamburger with an animated full-screen drawer. The navbar scrolls with the page and hides when the footer enters the viewport (detected via `IntersectionObserver`).
 - **Hero** — desktop runs the full 5-phase animation sequence; mobile shows a simplified static layout
 - **ReturnOnIntelligence cards** — accordion/stack collapses to single-column on mobile; image panel hidden on small screens
 - **CTA / Footer** — single-column on mobile, multi-column on desktop
@@ -90,9 +90,17 @@ components/
 | 2     | 1 700          | Phone rights to −1.43°                                                               |
 | 3     | 3 300          | Alert cards slide in; phone screen notifications appear                              |
 | 4     | 5 500          | Phone shifts right 23 vw, scales 1.2×; headline exits left                           |
-| 5+    | 7 000 → 14 500 | Left panel fades in; 4 feature items cycle in/out with `AnimatePresence mode="wait"` |
+| 5+    | 7 000 → 14 500 | Left panel fades in; 4 feature items advance as a moving queue |
 
 All easing uses `[0.22, 1, 0.36, 1]` (spring-like cubic-bezier) throughout.
+
+**Left panel — moving queue**
+
+`ITEMS.slice(activeItem)` renders only the active item and those still to come. The first item in the slice is at full opacity (1.0); the rest are dimmed (0.2). When the timer fires, the outgoing item exits (`opacity: 0, y: −20`) over 0.6 s; the `layout` prop on every sibling causes them to slide up simultaneously. `AnimatePresence` keeps the exiting element in the DOM until its animation completes.
+
+**ROI card stack — stacked deck**
+
+`ReturnOnIntelligence.jsx` renders all four cards as absolutely-positioned `motion.div`s. Collapsed cards peek from above the expanded card: the back card sits at `y = 0`, each subsequent card 80 px lower, and the active (expanded) card at the bottom (`y = (n−1) × 80 px`). The active card has the highest `z-index` so it visually covers the lower portions of the peek cards. Clicking the active card's title triggers a dismiss: the card flies upward (`y − 300, opacity → 0`) over 0.5 s, then the next card becomes active. After all four are dismissed the stack resets via a `resetKey` increment (forces remount so `initial` fires with no transition).
 
 **Scroll animations:** `useInView` triggers fade/slide-in on the ROI section header, CTA, and footer on first scroll into view.
 
@@ -134,8 +142,9 @@ All easing uses `[0.22, 1, 0.36, 1]` (spring-like cubic-bezier) throughout.
 ## Challenges Faced
 
 - **Hero animation sequence** — replicating 8 sub-phases with precise per-element timing and staggering without a timeline library required careful `setTimeout` orchestration and Framer Motion `delay` props
-- **Phone screen overlay** — positioning notification cards correctly inside a rotated `<Image>` wrapper while keeping them responsive
-- **Stacked card deck** — building the dismiss-and-cycle interaction (top card flies off, stack shifts up, resets after all 4 viewed) with Framer Motion layout animations
+- **Phone screen notification overlay** — positioning skewed/rotated notification cards correctly inside a tilted `<Image>` wrapper required nested transforms with matching `rotate`, `skewX`, and `scale` values to keep cards flush with the phone screen at all viewport sizes
+- **Stacked card deck (peek-from-top layout)** — matching the Figma design where collapsed cards peek from *above* the expanded card (not below) required inverting the y-positioning formula so the back card sits at `y = 0` and the active card sits at the bottom of the container, with z-index covering the lower portions of peek cards
+- **Moving queue animation** — achieving the "items shift up together" effect while one exits required combining `AnimatePresence` (to animate the outgoing item) with Framer Motion's `layout` prop on siblings (so they slide into their new positions simultaneously rather than snapping after the exit completes)
 - **Navbar gradient continuity** — matching the hero section's background so the navbar blends seamlessly on scroll
 
 ---

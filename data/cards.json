@@ -4,9 +4,18 @@
     "title": "Smart Analytics & Reporting",
     "description": "An analytics engine that turns operational data into targeted insights that drive action, not just observation. Built for complex facilities, it empowers your team with clear operational visibility, faster response times, and continuous improvement",
     "bullets": [
-      "Auto-generated insights, powered by AWS QuickSight",
-      "360° visibility into performance metrics",
-      "Built-in actionable intelligence"
+      {
+        "title": "Auto-generated insights, powered by AWS QuickSight",
+        "description": "Automatically surface trends and anomalies across all building systems — no manual report-building required."
+      },
+      {
+        "title": "360° visibility into performance metrics",
+        "description": "Track energy use, equipment health, and occupancy patterns across every floor and system in real time."
+      },
+      {
+        "title": "Built-in actionable intelligence",
+        "description": "Every insight comes paired with a recommended next step, so your team knows exactly what to do and when."
+      }
     ]
   },
   {
@@ -14,9 +23,18 @@
     "title": "Smart Alerts",
     "description": "Alerts that offer more than just a warning—delivering precise, actionable intelligence when it matters most. From early fault detection to guided resolution, your team has everything they need to stay ahead of failures and downtime.",
     "bullets": [
-      "Automated Fault Detection and Diagnostics",
-      "Role-based alerts",
-      "Personalized, multichannel communication"
+      {
+        "title": "Automated Fault Detection and Diagnostics",
+        "description": "Identify equipment faults before they become failures using pattern recognition across live sensor data."
+      },
+      {
+        "title": "Role-based alerts",
+        "description": "Route the right alert to the right person — engineers, managers, and technicians each see only what's relevant to them."
+      },
+      {
+        "title": "Personalized, multichannel communication",
+        "description": "Receive alerts via SMS, email, or in-app notification, configured per user and severity level."
+      }
     ]
   },
   {
@@ -24,9 +42,18 @@
     "title": "Facility-Wide Monitoring & Control",
     "description": "DeJoule acts as your building's central command—integrating data, control, and actions across all systems to ensure your facility runs in perfect sync.",
     "bullets": [
-      "Centralized system intelligence",
-      "Unified smart control",
-      "Proactive maintenance workflows"
+      {
+        "title": "Centralized system intelligence",
+        "description": "Consolidate HVAC, lighting, access control, and more into a single operational view across your entire facility."
+      },
+      {
+        "title": "Unified smart control",
+        "description": "Issue commands to any connected system from one interface — no switching between vendor dashboards."
+      },
+      {
+        "title": "Proactive maintenance workflows",
+        "description": "Automatically trigger work orders and schedule maintenance based on real-time condition monitoring."
+      }
     ]
   },
   {
@@ -34,9 +61,18 @@
     "title": "Intelligent Automation",
     "description": "Let's bring your systems to life with automation that evolves by the minute, making data-driven decisions to optimize performance without compromise",
     "bullets": [
-      "Joule Recipes for routine actions",
-      "Dynamic equipment orchestration",
-      "Balanced equipment utilization"
+      {
+        "title": "Joule Recipes for routine actions",
+        "description": "Define multi-step automation sequences that trigger complex system actions from a single condition or schedule."
+      },
+      {
+        "title": "Dynamic equipment orchestration",
+        "description": "Coordinate HVAC, lighting, and other equipment in real time based on occupancy, weather, and demand signals."
+      },
+      {
+        "title": "Balanced equipment utilization",
+        "description": "Distribute runtime evenly across redundant equipment to maximize lifespan and minimize unexpected failures."
+      }
     ]
   }
 ]

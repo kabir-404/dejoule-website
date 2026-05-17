@@ -71,7 +71,6 @@ export default function Navbar() {
       >
         <div className="max-w-[1580px] mx-auto px-6 lg:px-12">
           <div className="flex items-center justify-between h-[72px] lg:h-[88px]">
-            {/* Logo */}
             <Link href="/" className="flex flex-col items-start shrink-0">
               <Image
                 src="/logo-navbar.png"
@@ -83,7 +82,6 @@ export default function Navbar() {
               />
             </Link>
 
-            {/* Desktop nav */}
             <nav className="hidden lg:flex items-center gap-0.5">
               {navLinks.map((link) =>
                 link.dropdown ? (
@@ -140,7 +138,6 @@ export default function Navbar() {
               )}
             </nav>
 
-            {/* Hamburger */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="lg:hidden p-2.5 rounded-xl text-[#565656] hover:bg-gray-100 transition-colors"

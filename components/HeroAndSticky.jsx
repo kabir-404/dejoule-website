@@ -596,26 +596,28 @@ export default function HeroAndSticky() {
             </p>
           </div>
 
-          {/* mode="wait" ensures the exiting item fully leaves before the next one enters */}
-          <div style={{ minHeight: "10vh" }}>
-            <AnimatePresence mode="wait">
-              {activeItem >= 0 && (
-                <motion.div
-                  key={activeItem}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -30 }}
-                  transition={{ duration: D_ITEM, ease: EASE }}
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "12px",
-                  }}
-                >
-                  <p style={titleStyle}>{ITEMS[activeItem].title}</p>
-                  <p style={descStyle}>{ITEMS[activeItem].description}</p>
-                </motion.div>
-              )}
+          <div style={{ display: "flex", flexDirection: "column", gap: "clamp(20px, 3.5vh, 48px)" }}>
+            <AnimatePresence>
+              {activeItem >= 0 &&
+                ITEMS.slice(activeItem).map((item, sliceIdx) => {
+                  const originalIdx = activeItem + sliceIdx;
+                  const isActive = sliceIdx === 0;
+
+                  return (
+                    <motion.div
+                      key={originalIdx}
+                      layout
+                      initial={{ opacity: 0.2, y: 0 }}
+                      animate={{ opacity: isActive ? 1 : 0.2, y: 0 }}
+                      exit={{ opacity: 0, y: -20, transition: { duration: 0.6, ease: EASE } }}
+                      transition={{ duration: 1.3, ease: EASE }}
+                      style={{ display: "flex", flexDirection: "column", gap: "12px" }}
+                    >
+                      <p style={titleStyle}>{item.title}</p>
+                      <p style={descStyle}>{item.description}</p>
+                    </motion.div>
+                  );
+                })}
             </AnimatePresence>
           </div>
         </motion.div>
