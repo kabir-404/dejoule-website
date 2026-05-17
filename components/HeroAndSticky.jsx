@@ -11,7 +11,7 @@ const T2 = 1700; // phone uprights
 const T3 = 3300; // cards + phone screen appear
 const T4 = 5500; // phone shifts right, headline exits
 const T5 = 7000; // left panel fades in
-const T_ITEMS = [7000, 8000, 9300, 10600]; // items 0-3 activate
+const T_ITEMS = [7000, 9500, 12000, 14500];
 
 // ── Animation durations (s) — Issue 5: all +0.5s ─────────────────────────────
 const D_ENTER = 1.9; // phone enter
@@ -285,7 +285,8 @@ export default function HeroAndSticky() {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "linear-gradient(180deg, #d6dce8 0%, #e8edf5 30%, #f4f6fb 60%, #ffffff 100%)",
+          background:
+            "linear-gradient(180deg, #d6dce8 0%, #e8edf5 30%, #f4f6fb 60%, #ffffff 100%)",
         }}
       />
 
@@ -563,7 +564,13 @@ export default function HeroAndSticky() {
         {/* ── Left panel (Phase 5+) ──────────────────────────────────────────── */}
         <motion.div
           className="absolute hidden lg:flex flex-col justify-start z-20"
-          style={{ left: "9.3vw", top: 0, bottom: 0, width: "38vw", paddingTop: "24px" }}
+          style={{
+            left: "9.3vw",
+            top: 0,
+            bottom: 0,
+            width: "38vw",
+            paddingTop: "24px",
+          }}
           initial={{ opacity: 0 }}
           animate={{ opacity: phase >= 5 ? 1 : 0 }}
           transition={{ duration: D_PANEL, ease: EASE }}

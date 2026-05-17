@@ -1,3 +1,6 @@
+import fs from "fs";
+import path from "path";
+
 export async function POST(request) {
   try {
     const body = await request.json();
@@ -16,14 +19,22 @@ export async function POST(request) {
       return Response.json({ error: "Please include a message (at least 10 characters)." }, { status: 400 });
     }
 
-    // In production: send via email provider (SendGrid, Resend, etc.)
-    // For now we log and acknowledge.
-    console.log("[DeJoule Contact]", {
+    const entry = {
       name: name.trim(),
       email: email.trim().toLowerCase(),
       message: message.trim(),
       receivedAt: new Date().toISOString(),
-    });
+    };
+
+    const filePath = path.join(process.cwd(), "data", "contacts.json");
+    let contacts = [];
+    if (fs.existsSync(filePath)) {
+      contacts = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    }
+    contacts.push(entry);
+    fs.writeFileSync(filePath, JSON.stringify(contacts, null, 2), "utf-8");
+
+    console.log("[DeJoule Contact]", entry);
 
     return Response.json(
       { success: true, message: "Thanks for reaching out — we'll be in touch within 24 hours." },
