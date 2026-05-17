@@ -280,7 +280,7 @@ export default function HeroAndSticky() {
   return (
     <section
       className="relative overflow-hidden bg-white"
-      style={{ minHeight: "100vh", paddingTop: "88px" }}
+      style={{ minHeight: "100vh" }}
     >
       <div
         className="absolute inset-0 pointer-events-none"
@@ -563,7 +563,7 @@ export default function HeroAndSticky() {
         {/* ── Left panel (Phase 5+) ──────────────────────────────────────────── */}
         <motion.div
           className="absolute hidden lg:flex flex-col justify-start z-20"
-          style={{ left: "9.3vw", top: 0, bottom: 0, width: "38vw", paddingTop: "120px" }}
+          style={{ left: "9.3vw", top: 0, bottom: 0, width: "38vw", paddingTop: "24px" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: phase >= 5 ? 1 : 0 }}
           transition={{ duration: D_PANEL, ease: EASE }}
