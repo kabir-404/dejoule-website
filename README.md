@@ -47,8 +47,6 @@ components/
   Footer.jsx                 ← company / solutions / social links
 ```
 
-> `Hero.jsx` exists in the repo but is not used — `page.js` imports `HeroAndSticky.jsx` directly.
-
 **API routes**
 
 | Route | Method | Description |
