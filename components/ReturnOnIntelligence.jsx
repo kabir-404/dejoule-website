@@ -7,6 +7,7 @@ import {
   AnimatePresence,
   useScroll,
   useTransform,
+  useSpring,
   useMotionValueEvent,
 } from "framer-motion";
 
@@ -364,6 +365,10 @@ export default function ReturnOnIntelligence() {
   const y1 = useTransform(scrollYProgress, [0.62, 0.89], ["0vh", "-110vh"]);
   // card 0 never moves — y = 0
 
+  const y3Spring = useSpring(y3, { stiffness: 200, damping: 30, mass: 0.3 });
+  const y2Spring = useSpring(y2, { stiffness: 200, damping: 30, mass: 0.3 });
+  const y1Spring = useSpring(y1, { stiffness: 200, damping: 30, mass: 0.3 });
+
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     if (v < 0.35)      setCurrentFront(3);
     else if (v < 0.62) setCurrentFront(2);
@@ -387,7 +392,7 @@ export default function ReturnOnIntelligence() {
   }, []);
 
   // index → y MotionValue (index 0 = static 0, never moves)
-  const yTransforms = [0, y1, y2, y3];
+  const yTransforms = [0, y1Spring, y2Spring, y3Spring];
 
   const containerHeight = 3 * PEEK_H + EXPANDED_H; // 3×76 + 501 = 729px
 
