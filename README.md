@@ -80,7 +80,7 @@ components/
 
 ## Animation Approach
 
-**Library:** Framer Motion 12 (`motion`, `AnimatePresence`, `useInView`, `useScroll`, `useTransform`, `useMotionValueEvent`)
+**Library:** Framer Motion 12 (`motion`, `AnimatePresence`, `useInView`, `useScroll`, `useTransform`, `useSpring`, `useMotionValueEvent`)
 
 ---
 
@@ -147,6 +147,10 @@ When `currentFront` advances, back cards narrow to signal depth:
 | 3+ | 91% |
 
 Width changes animate with `transition: "width 0.6s cubic-bezier(0.22, 1, 0.36, 1)"`.
+
+**Spring smoothing**
+
+Each `useTransform` value is wrapped with `useSpring` (`stiffness: 200, damping: 30, mass: 0.3`) before being passed to the card's `y` style prop. The high stiffness and damping keep the smoothing very subtle — just enough to take the edge off direct scroll tracking without introducing noticeable lag or bounce.
 
 **`currentFront` tracking**
 
