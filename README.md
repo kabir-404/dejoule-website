@@ -70,7 +70,7 @@ components/
 
 - **Navbar** — desktop horizontal links with animated dropdown; mobile collapses to a hamburger with an `AnimatePresence` drawer. Fades out when the footer enters the viewport via `IntersectionObserver`.
 - **Hero** — desktop runs the full 5-phase animation sequence; mobile shows a simplified static layout.
-- **ReturnOnIntelligence** — desktop uses a 300 vh scroll-capture stack; mobile falls back to a tap-to-expand vertical accordion.
+- **ReturnOnIntelligence** — the section heading sits in normal document flow above the 300 vh scroll-capture wrapper, so it scrolls away naturally before the sticky deck activates. Desktop shows the scroll-driven stacked card deck; mobile falls back to a tap-to-expand vertical accordion.
 - **CTA / Footer** — single-column on mobile, multi-column on desktop.
 - Tailwind breakpoints used: `sm:` (640 px) and `lg:` (1024 px).
 
@@ -105,6 +105,18 @@ All easing uses `[0.22, 1, 0.36, 1]` (spring-like cubic-bezier) throughout.
 ### ROI card stack — scroll-driven stacked deck
 
 `ReturnOnIntelligence.jsx` renders all four cards as absolutely-positioned `motion.div`s inside a 300 vh scroll-capture wrapper.
+
+**Layout structure**
+
+The section heading is in normal document flow, outside the scroll-capture `div`, so it scrolls past before the sticky deck pins. The sticky container uses `top-0` + `items-start` + `paddingTop: clamp(40px, 8vh, 100px)` — this anchors the deck from the top of the viewport with viewport-proportional breathing room rather than vertically centering it, which caused heading overlap at smaller viewport heights.
+
+**Card data**
+
+Card content is merged from two sources in the `useEffect`: `/api/cards` (reads `data/cards.json`) supplies `title`, `description`, and `bullets`; `CARD_META` hardcoded in the component supplies `subtitle` and `image` path, keyed by card `id`.
+
+**ExpandedCard vs CollapsedCard**
+
+On desktop, every card in the stack renders as `ExpandedCard` (501 px tall, full two-column layout). The "peek" effect for back cards comes entirely from z-stacking and absolute `top: i * PEEK_H` positioning — front cards physically cover the ones behind. `CollapsedCard` is used only in the mobile accordion, where tapped cards toggle between the 76 px peek strip and the full `ExpandedCard`.
 
 **Scroll setup**
 

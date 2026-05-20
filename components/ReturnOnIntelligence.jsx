@@ -453,7 +453,7 @@ export default function ReturnOnIntelligence() {
 
       {/* ── Desktop: 300vh scroll capture ── */}
       <div ref={wrapperRef} className="hidden lg:block" style={{ height: "300vh" }}>
-        <div className="sticky top-0 h-screen overflow-visible flex items-center justify-center">
+        <div className="sticky top-0 h-screen overflow-visible flex items-start justify-center" style={{ paddingTop: "clamp(40px, 8vh, 100px)" }}>
           <div className="w-full max-w-[1580px] px-6 lg:px-12">
             <div className="max-w-[80%] mx-auto">
 
